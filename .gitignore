@@ -1,0 +1,6 @@
+*.exe
+tempCodeRunnerFile.cpp
+*.o
+*.obj
+build/
+debug/
