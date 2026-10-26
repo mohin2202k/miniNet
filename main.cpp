@@ -7,6 +7,7 @@ class Packet {
 	string Payload;
 public:
 	Packet(string src, string des, string payload):  Source(src), Destination(des), Payload(payload) {}
+
 	string getData(){
 		return Payload;
 	}
@@ -21,16 +22,19 @@ public:
 	Node(string name, string ip): Name(name), IP(ip), Connections({}) {
 		cout << "Created node " << Name << " [" << IP << "]" << endl; 
 	}
+
 	string getName(){
 		return Name;
 	}
+
 	string getIP(){
 		return IP;
 	}
+
 	vector<Node*> getConnections(){
 		return Connections;
 	} 
-		
+	
 	void connect(Node& node){
 		Connections.push_back(&node);
 		cout << Name << " connected to " << node.getName() << "on IP: [" << node.getIP() << ']'<< endl;
@@ -58,7 +62,8 @@ class Network{
 	string Name;
 	vector<Node*> Nodes;
 public:
-	Network(): Nodes({}) {}
+	Network(): Nodes({}) {} //constructor
+
 	void addNode(Node& node){
 		for(Node* i:Nodes){
 			if(i->getIP()==node.getIP()){
@@ -69,12 +74,14 @@ public:
 		Nodes.push_back(&node);
 		cout << "Added node " << node.getName() << " with IP: [" << node.getIP() << ']' << endl;
 	}
+
 	Node* findNodeByIp(string ip){
 		for(Node* i : Nodes){
 			if(i->getIP()==ip) return i;
 		}
 		return nullptr;
 	}
+	
 	vector<Node*> findNodeByName(string name){
 		vector<Node*> nodes;
 		for(Node* i : Nodes){
@@ -82,6 +89,7 @@ public:
 		}
 		return nodes;
 	}
+
 	void connect(Node& n1, Node& n2){
 		for(Node* i : n1.getConnections()){
 			if(i->getIP()==n2.getIP()){
@@ -99,7 +107,7 @@ int main() {
 	Network network;
 	Node cloudfare("Cloudfare", "1.1.1.1");
 	Node google("Google", "8.8.8.8");
-	Packet topSecret("1.1.1.1", "8.8.8.8", "");
+	Packet topSecret("1.1.1.1", "8.8.8.8", "secret");
 	network.addNode(cloudfare);
 	network.addNode(google);
 	network.connect(cloudfare, google);
