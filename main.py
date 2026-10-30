@@ -28,7 +28,23 @@ class Node:
 		return self.connections
 
 
-
+class Network:
+	def __init__(self):
+		self.nodes={}
+	
+	def add_node(self, node):
+		if node.get_ip() in self.nodes:
+			print(f"Node with IP [{node.get_ip()}] already exists!")
+			return
+			# if i.get_ip() == node1.get_ip():
+			# 	print(f"{node1.get_name()} is already connected to {node2.get_name()}")
+			# 	return
+		
+		self.nodes[node.get_ip()] = node
+		print(f"added node {node.get_name()} with ip: [{node.get_ip()}]")
+		# node1.connect(node2)
+		# node2.connect(node1)
+		# print(f"connected {node1.get_name()} to {node2.get_name()}")
 
 
 #----------------------------------MAIN----------------------------------
@@ -38,12 +54,12 @@ class Node:
 # print(packet.get_data())
 # print(packet.source)
 # print(packet.destination)
+network = Network()
 
 cloudflare = Node("Cloudfare", "1.1.1.1")
 google = Node("Google", "8.8.8.8")
-cloudflare.connect(google)
+
 top_secret = Packet("1.1.1.1", "8.8.8.8", "secret")
 
-for i in cloudflare.get_connections():
-	print(f"{i.get_name()} on IP: {i.get_ip()}\n")
-	
+network.add_node(cloudflare)
+network.add_node(google)

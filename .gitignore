@@ -4,3 +4,4 @@ tempCodeRunnerFile.cpp
 *.obj
 build/
 debug/
+.python

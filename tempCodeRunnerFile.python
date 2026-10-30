@@ -1,0 +1,22 @@
+import jwt
+
+token = input("Paste your complete JWT locally: ").strip()
+
+secret = "M41T_STAGING_KEY_EXPIRED_2025"
+
+try:
+    payload = jwt.decode(
+        token,
+        secret,
+        algorithms=["HS256"],
+        options={"verify_exp": False}
+    )
+
+    print("SECRET MATCHES!")
+    print(payload)
+
+except jwt.InvalidSignatureError:
+    print("Secret does not match.")
+
+except jwt.PyJWTError as e:
+    print("JWT verification failed:", e)
