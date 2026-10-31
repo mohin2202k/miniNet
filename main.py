@@ -22,7 +22,6 @@ class Node:
 	
 	def connect(self, node):
 		self.connections.append(node)
-		print(f"{self.name} connected to {node.name} on IP: {node.get_ip()}.")
 	
 	def get_connections(self):
 		return self.connections
@@ -45,6 +44,30 @@ class Network:
 		# node1.connect(node2)
 		# node2.connect(node1)
 		# print(f"connected {node1.get_name()} to {node2.get_name()}")
+	
+	def find_node_by_ip(self, ip):
+		for node in self.nodes:
+			if node.get_ip()==ip:
+				return node
+		return None
+	def find_nodes_by_name(self, name):
+			nodes = []
+			for node in self.nodes:
+				if node.get_name()==name:
+					nodes.append(node)
+			return nodes
+	
+	def connect(self, node1, node2):
+		if node1.get_ip() == node2.get_ip():
+			print("Cannot connect nodes with the same IP")
+			return
+		for node in node1.get_connections():
+			if node.get_ip() == node2.get_ip():
+				print(f"node with ip: [{node2.get_ip()}] is already connected to {node1.get_name()}")
+				return
+		node1.connect(node2)
+		node2.connect(node1)
+		print(f"connected {node1.get_name()} to {node2.get_name()}")
 
 
 #----------------------------------MAIN----------------------------------
@@ -63,3 +86,5 @@ top_secret = Packet("1.1.1.1", "8.8.8.8", "secret")
 
 network.add_node(cloudflare)
 network.add_node(google)
+network.connect(cloudflare, google)
+network.connect(google, cloudflare)
